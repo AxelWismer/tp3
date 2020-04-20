@@ -60,7 +60,7 @@ class UniformRegister(generic.FormView):
         # Metodo de prueba de bondad
         test_type = form.cleaned_data['test_type']
         if test_type == 'AUTO':
-            table.prueba_de_bodad()
+            table.prueba_de_bondad()
         elif test_type == 'CHI':
             table.chi()
         else:

@@ -9,8 +9,19 @@
         <th scope="col">Max</th>
         <th scope="col">Fe</th>
         <th scope="col">Fo</th>
+
+        {% if table.metodo == 'KS' %}
+        <th scope="col">Po</th>
+        <th scope="col">Pe</th>
+        <th scope="col">Po ac.</th>
+        <th scope="col">Pe ac.</th>
+        <th scope="col">|Po ac.-Pe ac.|</th>
+        <th scope="col">max(|Po ac.-Pe ac.|)</th>
+
+        {% else %}
         <th scope="col">c</th>
         <th scope="col">c acumulado</th>
+        {% endif %}
 
     </tr>
     </thead>
@@ -23,8 +34,19 @@
         <td>{{interv.fin}}</td>
         <td>{{interv.fe}}</td>
         <td>{{interv.fo}}</td>
-        <td>{{interv.get_c}}</td>
+
+        {% if table.metodo == 'KS' %}
+        <td>{{interv.prob_fo}}</td>
+        <td>{{interv.prob_fe}}</td>
+        <td>{{interv.prob_fo_acu}}</td>
+        <td>{{interv.prob_fe_acu}}</td>
+        <td>{{interv.dif_prob_acu}}</td>
+        <td>{{interv.dif_prob_acu_max}}</td>
+
+        {% else %}
+           <td>{{interv.get_c}}</td>
         <td>{{interv.get_c_acum}}</td>
+        {% endif %}
 
     </tr>
     {% endfor %}

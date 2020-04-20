@@ -1,0 +1,23 @@
+<!--Tabla de los numeros generados-->
+<!--var: numbers-->
+
+{% load crispy_forms_tags %}
+
+<table class="table table-sm">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for num in numbers %}
+  <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{num}}</td>
+  </tr>
+  {% endfor %}
+
+  </tbody>
+</table>

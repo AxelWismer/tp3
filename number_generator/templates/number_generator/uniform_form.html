@@ -1,0 +1,30 @@
+<!--Archivo base de los formularios de actualizacion-->
+{% extends 'number_generator/base_form.html' %}
+
+{% block form %}
+{% load crispy_forms_tags %}
+
+<h1 class="text-center">Generacion de valores uniformes</h1>
+<hr>
+<h3 class="">Generador</h3>
+{% include 'number_generator/snippets/generator_form.html' with form=form %}
+<hr>
+<hr>
+<h3 class="">Generador Uniforme</h3>
+<!--Datos del generador uniforme-->
+<div class="row">
+    <div class="col-6">
+        {{ form.a_min|as_crispy_field }}
+    </div>
+    <div class="col-6">
+        {{ form.b_max|as_crispy_field }}
+    </div>
+</div>
+<hr>
+<hr>
+<h3 class="">Prueba de bodad de ajuste</h3>
+{% include 'number_generator/snippets/numbers_test_form.html' with form=form %}
+<hr>
+{% endblock form %}
+
+

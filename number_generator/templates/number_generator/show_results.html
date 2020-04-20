@@ -1,0 +1,43 @@
+<!--Archivo base de los formularios de actualizacion-->
+{% extends 'number_generator/base.html' %}
+
+{% load static %}
+
+
+{% block app_content %}
+
+<h1 class="text-center">Prueba de Bondad de Ajuste</h1>
+<hr>
+<div class="row">
+
+    <div class="col-2">
+        <!-- Tabla de los numeros generados-->
+        <h2 class="text-center">Valores</h2>
+        {% include 'number_generator/snippets/numbers_table.html' with numbers=table.datos %}
+    </div>
+
+    <div class="col-10">
+        <h2 class="text-center">Histograma</h2>
+
+        {% if tabla.intervalos_reorganizados %}
+        <hr>
+        <!-- Tabla original -->
+        <h3>Intervalos originales</h3>
+        {% include 'number_generator/snippets/interval_table.html' with intervals=table.intervalos %}
+        <br>
+        <!-- Tabla de intervalos reorganizados con c acumulado-->
+        <h3>Intervalos originales</h3>
+        {% include 'number_generator/snippets/histogram_table.html' with intervals=table.intervalos_reorganizados %}
+
+        {% else %}
+        <!-- Tabla original (porque no se reorganizo los intervalos) con c acum -->
+        {% include 'number_generator/snippets/histogram_table.html' with intervals=table.intervalos %}
+        {% endif %}
+
+        <div class="text-center">
+            <img class='mb-2' src="{% static 'histograma.png' %}" width=800>
+        </div>
+    </div>
+</div>
+
+{% endblock app_content %}

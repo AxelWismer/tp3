@@ -1,0 +1,32 @@
+<!--Tabla de los valores generados-->
+<!--var: intervals-->
+
+<table class="table table-sm table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Min</th>
+        <th scope="col">Max</th>
+        <th scope="col">Fe</th>
+        <th scope="col">Fo</th>
+        <th scope="col">c</th>
+        <th scope="col">c acumulado</th>
+
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for interv in intervals %}
+    <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{interv.inicio}}</td>
+        <td>{{interv.fin}}</td>
+        <td>{{interv.fe}}</td>
+        <td>{{interv.fo}}</td>
+        <td>{{interv.get_c}}</td>
+        <td>{{interv.get_c_acum}}</td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

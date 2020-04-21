@@ -2,6 +2,8 @@
 <!--var: form-->
 {% load crispy_forms_tags %}
 <h3 class="">Prueba de bondad de ajuste</h3>
+{% if not poisson %}
+
 <div class="row">
     <div class="col-6">
         {{ form.number_amount|as_crispy_field }}
@@ -14,12 +16,23 @@
     <div class="col-6">
         {{ form.test_type|as_crispy_field }}
     </div>
+
     <div class="col-6">
         <div class="border px-2">
             {{ form.min_value|as_crispy_field }}
             {{ form.max_value|as_crispy_field }}
         </div>
-            <small style="color: grey;">Si no se ingresan estos datos, se calcularan automaticamente (recomendado) </small>
-
+        <small style="color: grey;">Si no se ingresan estos datos, se calcularan automaticamente (recomendado) </small>
     </div>
 </div>
+{% else %}
+<div class="row">
+    <div class="col-6">
+        {{ form.number_amount|as_crispy_field }}
+    </div>
+    <div class="col-6">
+        {{ form.test_type|as_crispy_field }}
+    </div>
+</div>
+{% endif %}
+

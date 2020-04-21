@@ -3,17 +3,19 @@
 {% block form %}
 {% load crispy_forms_tags %}
 
-<h1 class="text-center">Generacion de valores exponenciales</h1>
+<h1 class="text-center">Generacion de valores normales</h1>
 <hr>
 {% include 'number_generator/snippets/generator_form.html' with form=form %}
 <hr>
 <hr>
-<h3 class="">Generador Exponencial</h3>
-
+<h3 class="">Generador Normal</h3>
 <!--Datos del generador uniforme-->
 <div class="row">
     <div class="col-6">
-        {{ form.lam|as_crispy_field }}
+        {{ form.media|as_crispy_field }}
+    </div>
+    <div class="col-6">
+        {{ form.desviacion|as_crispy_field }}
     </div>
 </div>
 <hr>

@@ -22,7 +22,7 @@ class GeneratorForm(forms.Form):
 
 class NumberTestForm(forms.Form):
     # Datos de la prueba
-    number_amount = forms.IntegerField(label='Cantidad de numeros', initial=1, min_value=1)
+    number_amount = forms.IntegerField(label='Cantidad de numeros', initial=2, min_value=2)
     interval_amount = forms.IntegerField(label='Cantidad de intervalos', initial=1, min_value=1)
     TEST_TYPE_CHOICES = (('CHI', 'Chi Cuadrado'), ('KS', 'Kolmogorov-Smirnov'), ('AUTO', 'Automatico'))
     test_type = forms.ChoiceField(label="Tipo de prueba", choices=TEST_TYPE_CHOICES, initial=TEST_TYPE_CHOICES[2])
@@ -36,35 +36,17 @@ class UniformGeneratorForm(GeneratorForm, NumberTestForm):
     b_max = forms.FloatField(label='Valor maximo "b"', initial=1)
 
 
-class ExponentialPoissonGeneratorForm(GeneratorForm, NumberTestForm):
+class ExponentialGeneratorForm(GeneratorForm, NumberTestForm):
     lam = forms.FloatField(label='Lambda λ', min_value=0)
 
 
 class NormalGeneratorForm(GeneratorForm, NumberTestForm):
-    media = forms.FloatField(label='Media μ')
-    desviacion = forms.IntegerField(label='Desviacion estandar σ')
+    media = forms.FloatField(label='Media μ', initial=0)
+    desviacion = forms.IntegerField(label='Desviacion estandar σ', initial=1, min_value=0)
 
 
-
-# class ChiForm(forms.ModelForm):
-#     class Meta:
-#         model = Data
-#         fields = ('number_amount', 'interval_amount')
-#
-#     def __init__(self, *args, **kwargs):
-#         super(ChiForm, self).__init__(*args, **kwargs)
-#         self.helper = FormHelper()
-#         # self.helper.form_show_labels = False
-#         self.helper.form_tag = False
-#
-#
-# class ChiMixForm(forms.ModelForm):
-#     class Meta:
-#         model = Data
-#         fields = ('x', 'c', 'a', 'm', 'k', 'g', 'method', 'number_amount', 'interval_amount')
-#
-#     def __init__(self, *args, **kwargs):
-#         super(ChiMixForm, self).__init__(*args, **kwargs)
-#         self.helper = FormHelper()
-#         # self.helper.form_show_labels = False
-#         self.helper.form_tag = False
+class PoissonGeneratorForm(GeneratorForm, NumberTestForm):
+    lam = forms.FloatField(label='Lambda λ', min_value=0)
+    interval_amount = None
+    min_value = None
+    max_value = None

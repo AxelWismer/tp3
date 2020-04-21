@@ -3,13 +3,12 @@
 {% block form %}
 {% load crispy_forms_tags %}
 
-<h1 class="text-center">Generacion de valores exponenciales</h1>
+<h1 class="text-center">Generacion de valores de Poisson</h1>
 <hr>
 {% include 'number_generator/snippets/generator_form.html' with form=form %}
 <hr>
 <hr>
-<h3 class="">Generador Exponencial</h3>
-
+<h3 class="">Generador Poisson</h3>
 <!--Datos del generador uniforme-->
 <div class="row">
     <div class="col-6">
@@ -18,6 +17,6 @@
 </div>
 <hr>
 <hr>
-{% include 'number_generator/snippets/numbers_test_form.html' with form=form %}
+{% include 'number_generator/snippets/numbers_test_form.html' with form=form poisson=True %}
 <hr>
 {% endblock form %}

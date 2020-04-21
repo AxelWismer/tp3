@@ -3,7 +3,8 @@ from django.views import generic
 from generador_pseudoaliatorio import generador, tabla
 # Create your views here.
 # Forms
-from .forms import UniformGeneratorForm, ExponentialPoissonGeneratorForm, NormalGeneratorForm, NumberTestForm
+from .forms import UniformGeneratorForm, ExponentialGeneratorForm, NormalGeneratorForm, NumberTestForm,\
+    PoissonGeneratorForm
 import math
 
 
@@ -50,6 +51,7 @@ class TableRegister(generic.FormView):
             num_intervalos=form.cleaned_data['interval_amount'],
             valor_minimo=form.cleaned_data['min_value'],
             valor_maximo=form.cleaned_data['max_value'],
+            decimals=form.cleaned_data['decimals']
         )
         # Metodo de prueba de bondad
         test_type = form.cleaned_data['test_type']
@@ -84,7 +86,7 @@ class UniformRegister(TableRegister):
 
 
 class ExponentialRegister(TableRegister):
-    form_class = ExponentialPoissonGeneratorForm
+    form_class = ExponentialGeneratorForm
     template_name = 'number_generator/exponential_form.html'
     tester = tabla.Exponencial
 
@@ -94,8 +96,63 @@ class ExponentialRegister(TableRegister):
         # Se generan los datos de acuerdo a los parametros
         data = gen.exponencial(
             n=form.cleaned_data['number_amount'],
+            lam=form.cleaned_data['lam'],
         )
         # Se genera la tabla con los datos generados
         table = self.create_table(form, data)
-        print(table)
         return show_results(self.request, table)
+
+
+class NormalRegister(TableRegister):
+    form_class = NormalGeneratorForm
+    template_name = 'number_generator/normal_form.html'
+    tester = tabla.Normal
+
+    def form_valid(self, form):
+        # Se crea el generador
+        gen = self.creaate_generator(form)
+        # Se generan los datos de acuerdo a los parametros
+        data = gen.normal(
+            media=form.cleaned_data['media'],
+            desviacion=form.cleaned_data['desviacion'],
+            n=form.cleaned_data['number_amount'],
+        )
+        # Se genera la tabla con los datos generados
+        table = self.create_table(form, data)
+        return show_results(self.request, table)
+
+
+class PoissonRegister(TableRegister):
+    form_class = PoissonGeneratorForm
+    template_name = 'number_generator/poisson_form.html'
+    tester = tabla.Poisson
+
+    def form_valid(self, form):
+        # Se crea el generador
+        gen = self.creaate_generator(form)
+        # Se generan los datos de acuerdo a los parametros
+        data = gen.poisson(
+            n=form.cleaned_data['number_amount'],
+            lam=form.cleaned_data['lam'],
+        )
+        # Se genera la tabla con los datos generados
+        table = self.create_table(form, data)
+        return show_results(self.request, table)
+
+    def create_table(self, form, data):
+        # Creacion de la tabla
+        table = self.tester(
+            datos=data,
+            decimals=form.cleaned_data['decimals']
+        )
+        # Metodo de prueba de bondad
+        test_type = form.cleaned_data['test_type']
+        if test_type == 'AUTO':
+            table.prueba_de_bondad()
+        elif test_type == 'CHI':
+            table.chi()
+        else:
+            table.komolgorov_smirnov()
+        # Crea el grafico del histograma como archivo de imagen
+        table.histogram(path='static/histograma.png')
+        return table

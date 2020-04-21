@@ -59,6 +59,9 @@ class Tabla():
                 r += '\t' + str(intervalo) + '\n'
         return r
 
+    def get_c_acum(self):
+        return estadistica.truncate(self.c_acum, self.decimals)
+
     # Trunca un valor a cierta cantidad de decimales
     def truncate(self, number, digits=False) -> float:
         if not digits:
@@ -70,7 +73,6 @@ class Tabla():
             self.chi()
         else:
             self.komolgorov_smirnov()
-
 
     # Clase que representa cada fila de la tabla con sus atributos
     class Intervalo():
@@ -114,11 +116,15 @@ class Tabla():
                 return True
             return False
 
+        def get_fe(self):
+            return estadistica.truncate(self.fe, self.decimals)
+
         def get_c(self):
             return estadistica.truncate(self.c, self.decimals)
 
         def get_c_acum(self):
             return estadistica.truncate(self.c_acum, self.decimals)
+
 
 
 

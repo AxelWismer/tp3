@@ -19,14 +19,14 @@
     <div class="col-10">
         <h2 class="text-center">Histograma</h2>
 
-        {% if tabla.intervalos_reorganizados %}
+        {% if table.intervalos_reorganizados %}
         <hr>
         <!-- Tabla original -->
         <h3>Intervalos originales</h3>
         {% include 'number_generator/snippets/interval_table.html' with intervals=table.intervalos %}
         <br>
         <!-- Tabla de intervalos reorganizados con c acumulado-->
-        <h3>Intervalos originales</h3>
+        <h3>Intervalos reorganizados</h3>
         {% include 'number_generator/snippets/histogram_table.html' with intervals=table.intervalos_reorganizados %}
 
         {% else %}
@@ -34,6 +34,10 @@
         {% include 'number_generator/snippets/histogram_table.html' with intervals=table.intervalos %}
         {% endif %}
 
+        <!-- Datos de la tabla-->
+        {% include 'number_generator/snippets/data_table.html' with intervals=table.intervalos %}
+        <hr>
+        <hr>
         <div class="text-center">
             <img class='mb-2' src="{% static 'histograma.png' %}" width=800>
         </div>

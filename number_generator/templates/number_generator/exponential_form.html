@@ -3,21 +3,21 @@
 {% block form %}
 {% load crispy_forms_tags %}
 
-<h1 class="text-center">Generacion de valores uniformes</h1>
+<h1 class="text-center">Generacion de valores exponenciales</h1>
 <hr>
 {% include 'number_generator/snippets/generator_form.html' with form=form %}
 <hr>
 <hr>
-<h3 class="">Generador Uniforme</h3>
+<h3 class="">Generador Exponencial</h3>
+
+{% block distribution %}
 <!--Datos del generador uniforme-->
 <div class="row">
     <div class="col-6">
-        {{ form.a_min|as_crispy_field }}
-    </div>
-    <div class="col-6">
-        {{ form.b_max|as_crispy_field }}
+        {{ form.lam|as_crispy_field }}
     </div>
 </div>
+{% endblock distribution %}
 <hr>
 <hr>
 {% include 'number_generator/snippets/numbers_test_form.html' with form=form %}

@@ -36,10 +36,11 @@ class UniformGeneratorForm(GeneratorForm, NumberTestForm):
     b_max = forms.FloatField(label='Valor maximo "b"', initial=1)
 
 
-class ExponentialPoissonGeneratorForm(GeneratorForm):
+class ExponentialPoissonGeneratorForm(GeneratorForm, NumberTestForm):
     lam = forms.FloatField(label='Lambda λ', min_value=0)
 
-class NormalGeneratorForm(GeneratorForm):
+
+class NormalGeneratorForm(GeneratorForm, NumberTestForm):
     media = forms.FloatField(label='Media μ')
     desviacion = forms.IntegerField(label='Desviacion estandar σ')
 

@@ -7,51 +7,45 @@ from .forms import UniformGeneratorForm, ExponentialPoissonGeneratorForm, Normal
 import math
 
 
-# Crea y configura el generador de acuerdo a los datos
-def creaate_generator(form):
-    if form.cleaned_data['method'] == 'Ge':
-        gen = generador.Generador(
-            decimals=form.cleaned_data['decimals'],
-            random=True
-        )
-    else:
-        if form.cleaned_data['method'] == 'Mi':
-            c = form.cleaned_data['c']
-        else:
-            c = 0
-        # Se crea el generador con los datos del formulario
-        gen = generador.Generador(
-            x=form.cleaned_data['x'],
-            c=c,
-            a=form.cleaned_data['a'],
-            m=form.cleaned_data['m'],
-            k=form.cleaned_data['k'],
-            g=form.cleaned_data['g'],
-            decimals=form.cleaned_data['decimals'],
-        )
-    return gen
-
 # Muestra los resultados de la tabla
 def show_results(request, table):
     template_name = 'number_generator/show_results.html'
     return render(request, template_name, context={'table': table})
 
 
-class UniformRegister(generic.FormView):
-    form_class = UniformGeneratorForm
-    template_name = 'number_generator/uniform_form.html'
+# View generica que crea el generador y la tabla
+class TableRegister(generic.FormView):
+    form_class = None
+    template_name = None
+    tester = None
 
-    def form_valid(self, form):
-        # Se crea el generador
-        gen = creaate_generator(form)
-        # Se generan los datos de acuerdo a la clasificacion
-        data = gen.uniforme(
-            a=form.cleaned_data['a_min'],
-            b=form.cleaned_data['b_max'],
-            n=form.cleaned_data['number_amount'],
-        )
-        # Prueba de chi
-        table = tabla.Uniforme(
+    # Crea y configura el generador de acuerdo a los datos
+    def creaate_generator(self, form):
+        if form.cleaned_data['method'] == 'Ge':
+            gen = generador.Generador(
+                decimals=form.cleaned_data['decimals'],
+                random=True
+            )
+        else:
+            if form.cleaned_data['method'] == 'Mi':
+                c = form.cleaned_data['c']
+            else:
+                c = 0
+            # Se crea el generador con los datos del formulario
+            gen = generador.Generador(
+                x=form.cleaned_data['x'],
+                c=c,
+                a=form.cleaned_data['a'],
+                m=form.cleaned_data['m'],
+                k=form.cleaned_data['k'],
+                g=form.cleaned_data['g'],
+                decimals=form.cleaned_data['decimals'],
+            )
+        return gen
+
+    def create_table(self, form, data):
+        # Creacion de la tabla
+        table = self.tester(
             datos=data,
             num_intervalos=form.cleaned_data['interval_amount'],
             valor_minimo=form.cleaned_data['min_value'],
@@ -65,5 +59,43 @@ class UniformRegister(generic.FormView):
             table.chi()
         else:
             table.komolgorov_smirnov()
+        # Crea el grafico del histograma como archivo de imagen
         table.histogram(path='static/histograma.png')
+        return table
+
+
+class UniformRegister(TableRegister):
+    form_class = UniformGeneratorForm
+    template_name = 'number_generator/uniform_form.html'
+    tester = tabla.Uniforme
+
+    def form_valid(self, form):
+        # Se crea el generador
+        gen = self.creaate_generator(form)
+        # Se generan los datos de acuerdo a los parametros
+        data = gen.uniforme(
+            a=form.cleaned_data['a_min'],
+            b=form.cleaned_data['b_max'],
+            n=form.cleaned_data['number_amount'],
+        )
+        # Se genera la tabla con los datos generados
+        table = self.create_table(form, data)
+        return show_results(self.request, table)
+
+
+class ExponentialRegister(TableRegister):
+    form_class = ExponentialPoissonGeneratorForm
+    template_name = 'number_generator/exponential_form.html'
+    tester = tabla.Exponencial
+
+    def form_valid(self, form):
+        # Se crea el generador
+        gen = self.creaate_generator(form)
+        # Se generan los datos de acuerdo a los parametros
+        data = gen.exponencial(
+            n=form.cleaned_data['number_amount'],
+        )
+        # Se genera la tabla con los datos generados
+        table = self.create_table(form, data)
+        print(table)
         return show_results(self.request, table)

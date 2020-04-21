@@ -200,8 +200,8 @@ class Tabla():
             intervalos[i].prob_fe_acu = prob_fe_acu
         # Una vez calculado las Prob acum de Fe y Fo de todas las filas
         # Guardas el valor de las prob acu de la tabla
-        prob_fo_acu = self.truncate(2)
-        prob_fe_acu = self.truncate(2)
+        #prob_fo_acu = estadistica.truncate(prob_fo_acu, 4)
+        #prob_fe_acu = estadistica.truncate(prob_fe_acu, 4)
         self.prob_fo_acu = prob_fo_acu
         self.prob_fe_acu = prob_fe_acu
 
@@ -213,7 +213,8 @@ class Tabla():
             intervalos[i].dif_prob_acu = abs(intervalos[i].prob_fo_acu - intervalos[i].prob_fe_acu)
             if intervalos[i].dif_prob_acu > dif_prob_acu_max:
                 dif_prob_acu_max = intervalos[i].dif_prob_acu
-                intervalos[i].dif_prob_acu_max = dif_prob_acu_max
+            intervalos[i].dif_prob_acu_max = dif_prob_acu_max
+        #dif_prob_acu_max = estadistica.truncate(self, 4)
         self.dif_prob_acu_max = dif_prob_acu_max
 
     # Completa la tabla segun el metodo de chi

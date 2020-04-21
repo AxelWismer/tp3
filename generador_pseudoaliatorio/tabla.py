@@ -188,13 +188,15 @@ class Tabla():
             # la probabilidad de fe ya la calculamos con la funcion de densidad
             intervalos[i].prob_fe = intervalos[i].fe/len(self.datos)
             # Calculando la prob acumulada para cada intervalo
-            prob_fo_acu += intervalos[i].prob_fo_acu
+            prob_fo_acu += intervalos[i].prob_fo
             intervalos[i].prob_fo_acu = prob_fo_acu 
             # Lo mismo para la Fe
-            prob_fe_acu += intervalos[i].prob_fe_acu
+            prob_fe_acu += intervalos[i].prob_fe
             intervalos[i].prob_fe_acu = prob_fe_acu
         # Una vez calculado las Prob acum de Fe y Fo de todas las filas
         # Guardas el valor de las prob acu de la tabla
+        prob_fo_acu = self.truncate(2)
+        prob_fe_acu = self.truncate(2)
         self.prob_fo_acu = prob_fo_acu
         self.prob_fe_acu = prob_fe_acu
 

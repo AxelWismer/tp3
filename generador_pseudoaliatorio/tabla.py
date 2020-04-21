@@ -62,6 +62,9 @@ class Tabla():
     def get_c_acum(self):
         return estadistica.truncate(self.c_acum, self.decimals)
 
+    def get_dif_prob_acu_max(self):
+        return estadistica.truncate(self.dif_prob_acu_max, self.decimals)
+
     # Trunca un valor a cierta cantidad de decimales
     def truncate(self, number, digits=False) -> float:
         if not digits:
@@ -124,6 +127,22 @@ class Tabla():
 
         def get_c_acum(self):
             return estadistica.truncate(self.c_acum, self.decimals)
+
+        def get_prob_fe(self):
+            return estadistica.truncate(self.prob_fe, self.decimals)
+
+        def get_dif_prob_acu(self):
+            return estadistica.truncate(self.dif_prob_acu, self.decimals)
+
+        def get_prob_fo_acu(self):
+            return estadistica.truncate(self.prob_fo_acu, self.decimals)
+
+        def get_prob_fe_acu(self):
+            return estadistica.truncate(self.prob_fe_acu, self.decimals)
+
+        def get_dif_prob_acu_max(self):
+            return  estadistica.truncate(self.dif_prob_acu_max, self.decimals)
+
 
 
 
@@ -200,8 +219,6 @@ class Tabla():
             intervalos[i].prob_fe_acu = prob_fe_acu
         # Una vez calculado las Prob acum de Fe y Fo de todas las filas
         # Guardas el valor de las prob acu de la tabla
-        #prob_fo_acu = estadistica.truncate(prob_fo_acu, 4)
-        #prob_fe_acu = estadistica.truncate(prob_fe_acu, 4)
         self.prob_fo_acu = prob_fo_acu
         self.prob_fe_acu = prob_fe_acu
 
@@ -214,7 +231,6 @@ class Tabla():
             if intervalos[i].dif_prob_acu > dif_prob_acu_max:
                 dif_prob_acu_max = intervalos[i].dif_prob_acu
             intervalos[i].dif_prob_acu_max = dif_prob_acu_max
-        #dif_prob_acu_max = estadistica.truncate(self, 4)
         self.dif_prob_acu_max = dif_prob_acu_max
 
     # Completa la tabla segun el metodo de chi

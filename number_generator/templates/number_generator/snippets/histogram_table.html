@@ -37,11 +37,11 @@
 
         {% if table.metodo == 'KS' %}
         <td>{{interv.prob_fo}}</td>
-        <td>{{interv.prob_fe}}</td>
-        <td>{{interv.prob_fo_acu}}</td>
-        <td>{{interv.prob_fe_acu}}</td>
-        <td>{{interv.dif_prob_acu}}</td>
-        <td>{{interv.dif_prob_acu_max}}</td>
+        <td>{{interv.get_prob_fe}}</td>
+        <td>{{interv.get_prob_fo_acu}}</td>
+        <td>{{interv.get_prob_fe_acu}}</td>
+        <td>{{interv.get_dif_prob_acu}}</td>
+        <td>{{interv.get_dif_prob_acu_max}}</td>
 
         {% else %}
            <td>{{interv.get_c}}</td>

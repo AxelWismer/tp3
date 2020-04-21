@@ -22,8 +22,6 @@ class Tabla():
         pass
 
     def __init__(self,  datos, num_intervalos=0, valor_minimo=None, valor_maximo=None, decimals=4):
-        if len(datos) % num_intervalos != 0:
-            raise self.IndivisibleData('La cantidad de datos debe ser divisible por el numero de intervalos')
         # Completar datos
         # Si no se dan los valores minimos y maximos se obtienen directamente de los datos
         if valor_minimo is not None:
@@ -173,6 +171,7 @@ class Tabla():
     # Completa la tabla segun el metodo de Komolgorov Smirnov    
     def komolgorov_smirnov(self):
         self.metodo = "KS"
+        self.v = len(self.datos)
         # Calculo las prob de Fo y Fe asi como sus acumuladas
         self.set_prob()
         # Calculo la columna de la diferencia entre ambas
@@ -224,6 +223,8 @@ class Tabla():
         # Se itera por los intervalos
         for i in range(len(intervalos)):
             # Si el elemto actual es mayor que 5 se corta el algoritmo
+            if inicio >= len(intervalos):
+                break
             if intervalos[inicio].fe >= 5:
                 break
             # Acumuladores de las frecuencias esperada y observadas
@@ -253,6 +254,8 @@ class Tabla():
         inicio = 0
         # Se itera por los intervalos
         for i in range(len(intervalos)):
+            if inicio >= len(intervalos):
+                break
             # Si el elemto actual es mayor que 5 se corta el algoritmo
             if intervalos[inicio].fe >= 5:
                 break

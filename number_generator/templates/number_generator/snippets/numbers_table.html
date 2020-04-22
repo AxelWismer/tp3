@@ -1,23 +1,23 @@
 <!--Tabla de los numeros generados-->
-<!--var: numbers-->
+<!--var: numbers, max-->
 
 {% load crispy_forms_tags %}
+
 
 <table class="table table-sm">
     <thead class="thead-dark">
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Valor</th>
+        <th scope="col">#</th>
+        <th scope="col">Valor</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
+    {% for num in numbers|slice:range %}
+    <tr>
+        <th scope="row">{{forloop.counter|add:min}}</th>
+        <td>{{num}}</td>
+    </tr>
+    {% endfor %}
 
-  {% for num in numbers %}
-  <tr>
-      <th scope="row">{{forloop.counter}}</th>
-      <td>{{num}}</td>
-  </tr>
-  {% endfor %}
-
-  </tbody>
+    </tbody>
 </table>

@@ -13,7 +13,17 @@
     <div class="col-2">
         <!-- Tabla de los numeros generados-->
         <h2 class="text-center">Valores</h2>
-        {% include 'number_generator/snippets/numbers_table.html' with numbers=table.datos %}
+        {% include 'number_generator/snippets/numbers_table.html' with numbers=table.datos min=0 range="100" %}
+
+        {% if table.datos|length >= 100 %}
+        <a class="btn btn-block btn-outline-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            ...
+        </a>
+
+        <div class="collapse" id="collapseExample">
+            {% include 'number_generator/snippets/numbers_table.html' with numbers=table.datos min=100 range="100:10000" %}
+        </div>
+        {% endif %}
     </div>
 
     <div class="col-10">

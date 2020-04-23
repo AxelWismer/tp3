@@ -1,0 +1,12 @@
+{% load static %}
+
+<a href="{% url url %}">
+    <div class="card" style="width: 28rem;">
+        <div class="text-center">
+            <img class='' src="{% static path %}" style="width: 27rem;">
+        </div>
+        <div class="card-body">
+            <h1 class="card-title text-dark">{{name}}</h1>
+        </div>
+</div>
+</a>

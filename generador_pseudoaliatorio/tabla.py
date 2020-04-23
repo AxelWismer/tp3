@@ -3,6 +3,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import math
 from . import estadistica
+from scipy.stats import chi2
 
 class Tabla():
     intervalos = []
@@ -17,11 +18,12 @@ class Tabla():
     datos = []
     v = 0
     metodo = ""
+    nivel_de_significancia = 0
 
     class IndivisibleData(Exception):
         pass
 
-    def __init__(self,  datos, num_intervalos=0, valor_minimo=None, valor_maximo=None, decimals=4):
+    def __init__(self,  datos, num_intervalos=0, nivel_de_significancia=0.05, valor_minimo=None, valor_maximo=None, decimals=4):
         # Completar datos
         # Si no se dan los valores minimos y maximos se obtienen directamente de los datos
         if valor_minimo is not None:
@@ -35,6 +37,7 @@ class Tabla():
 
         self.num_intervalos = num_intervalos
         self.datos = datos
+        self.nivel_de_significancia = nivel_de_significancia
         self.decimals = decimals
 
         # Generar y completar la tabla
@@ -59,6 +62,25 @@ class Tabla():
                 r += '\t' + str(intervalo) + '\n'
         return r
 
+    # Devuelve el valor critico
+    def valor_critico(self):
+        if self.metodo == 'KS':
+            return -1
+        else:
+            return chi2.ppf(1 - self.nivel_de_significancia, self.v)
+
+    def get_valor_critico(self):
+        return estadistica.truncate(self.valor_critico(), self.decimals)
+
+    # Devuelve el valor de la conclusion
+    def conclusion(self):
+        if self.metodo == 'KS':
+            return "incompleto"
+        else:
+            if self.c_acum < self.valor_critico():
+                return "No se puede recharzar la hipotesis nula"
+            else:
+                return "Se rechaza la hipotesis nula"
     def get_c_acum(self):
         return estadistica.truncate(self.c_acum, self.decimals)
 
@@ -376,8 +398,8 @@ class Tabla():
 
 
 class Uniforme(Tabla):
-    def __init__(self, datos, num_intervalos, valor_minimo=None, valor_maximo=None, decimals=4):
-        super(Uniforme, self).__init__(datos, num_intervalos, valor_minimo, valor_maximo, decimals)
+    def __init__(self, datos, num_intervalos, nivel_de_significancia, valor_minimo=None, valor_maximo=None, decimals=4):
+        super(Uniforme, self).__init__(datos, num_intervalos, nivel_de_significancia, valor_minimo, valor_maximo, decimals)
         # Setea los valores de la fe en la subclase donde se re define el metodo set_fe()
         self.set_fe()
         # Setea el valor v para el calculo de chi
@@ -398,8 +420,8 @@ class Uniforme(Tabla):
 
 
 class Exponencial(Tabla):
-    def __init__(self, datos, num_intervalos, valor_minimo=None, valor_maximo=None, decimals=4):
-        super(Exponencial, self).__init__(datos, num_intervalos, valor_minimo, valor_maximo, decimals)
+    def __init__(self, datos, num_intervalos, nivel_de_significancia, valor_minimo=None, valor_maximo=None, decimals=4):
+        super(Exponencial, self).__init__(datos, num_intervalos, nivel_de_significancia, valor_minimo, valor_maximo, decimals)
         # Setea los valores de la fe en la subclase donde se re define el metodo set_fe()
         self.set_fe()
         # Setea el valor v para el calculo de chi
@@ -422,8 +444,8 @@ class Exponencial(Tabla):
 
 
 class Normal(Tabla):
-    def __init__(self, datos, num_intervalos, valor_minimo=None, valor_maximo=None, decimals=4):
-        super(Normal, self).__init__(datos, num_intervalos, valor_minimo, valor_maximo, decimals)
+    def __init__(self, datos, num_intervalos, nivel_de_significancia, valor_minimo=None, valor_maximo=None, decimals=4):
+        super(Normal, self).__init__(datos, num_intervalos, nivel_de_significancia, valor_minimo, valor_maximo, decimals)
         # Setea los valores de la fe en la subclase donde se re define el metodo set_fe()
         self.set_fe()
         # Setea el valor v para el calculo de chi
@@ -448,11 +470,12 @@ class Normal(Tabla):
 
 
 class Poisson(Tabla):
-    def __init__(self, datos, decimals=4):
+    def __init__(self, datos, nivel_de_significancia, decimals=4):
         self.datos = datos
         #Si dejo solo max(datos) no tomo en cuenta que pasa si 
         #Los datos no arrancan en 0
         self.num_intervalos = max(datos) - min(datos) + 1 
+        self.nivel_de_significancia = nivel_de_significancia
         self.decimals = decimals
         self.generar_intervalos()
         self.conteo_frecuencias()

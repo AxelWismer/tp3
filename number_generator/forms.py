@@ -22,10 +22,11 @@ class GeneratorForm(forms.Form):
 
 class NumberTestForm(forms.Form):
     # Datos de la prueba
-    number_amount = forms.IntegerField(label='Cantidad de numeros', initial=2, min_value=2)
-    interval_amount = forms.IntegerField(label='Cantidad de intervalos', initial=1, min_value=1)
+    number_amount = forms.IntegerField(label='Cantidad de numeros', initial=100, min_value=2)
+    interval_amount = forms.IntegerField(label='Cantidad de intervalos', initial=10, min_value=1)
     TEST_TYPE_CHOICES = (('CHI', 'Chi Cuadrado'), ('KS', 'Kolmogorov-Smirnov'), ('AUTO', 'Automatico'))
     test_type = forms.ChoiceField(label="Tipo de prueba", choices=TEST_TYPE_CHOICES, initial=TEST_TYPE_CHOICES[2])
+    probability = forms.FloatField(label="Nivel de significancia ∝", initial=0.05, min_value=0.0001, max_value=0.9999)
     # Valor minimos y maximos para la muestra que se consideran para generar los intervalos (opcionales)
     min_value = forms.IntegerField(label="Valor minimo", required=False)
     max_value = forms.IntegerField(label="Valor maximo", required=False)

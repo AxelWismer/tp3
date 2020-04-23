@@ -10,8 +10,12 @@
     {% else %}
     <h3>Valores prueba de Ji-Cuadrada</h3>
     <hr>
-    <h5>Estadistico de prueba acumulado (c acumulado): {{table.get_c_acum}}</h5>
     <h5>Grados de libertad (v): {{table.v}}</h5>
+    <h5>Nivel de significancia ∝: {{table.nivel_de_significancia}}</h5>
+    <h5>Estadistico de prueba acumulado (c acumulado): {{table.get_c_acum}}</h5>
+    <h5>Valor critico: {{table.get_valor_critico}}</h5>
+    <h5>Conclusion: {{table.conclusion}}</h5>
+
     {% endif %}
 
 </div>

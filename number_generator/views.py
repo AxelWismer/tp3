@@ -51,7 +51,8 @@ class TableRegister(generic.FormView):
             num_intervalos=form.cleaned_data['interval_amount'],
             valor_minimo=form.cleaned_data['min_value'],
             valor_maximo=form.cleaned_data['max_value'],
-            decimals=form.cleaned_data['decimals']
+            nivel_de_significancia=form.cleaned_data['probability'],
+            decimals=form.cleaned_data['decimals'],
         )
         # Metodo de prueba de bondad
         test_type = form.cleaned_data['test_type']
@@ -143,7 +144,8 @@ class PoissonRegister(TableRegister):
         # Creacion de la tabla
         table = self.tester(
             datos=data,
-            decimals=form.cleaned_data['decimals']
+            nivel_de_significancia=form.cleaned_data['probability'],
+            decimals=form.cleaned_data['decimals'],
         )
         # Metodo de prueba de bondad
         test_type = form.cleaned_data['test_type']

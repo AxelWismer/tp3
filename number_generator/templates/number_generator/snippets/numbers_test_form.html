@@ -5,23 +5,36 @@
 {% if not poisson %}
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-4">
         {{ form.interval_amount|as_crispy_field }}
+    </div>
+    <div class="col-4">
         {{ form.test_type|as_crispy_field }}
     </div>
-    <div class="col-6">
-        <div class="border px-2">
-            {{ form.min_value|as_crispy_field }}
-            {{ form.max_value|as_crispy_field }}
-        </div>
-        <small style="color: grey;">Si no se ingresan estos datos, se calcularan automaticamente (recomendado) </small>
+    <div class="col-4">
+        {{ form.probability|as_crispy_field }}
     </div>
 </div>
+
+<div class="row border">
+    <div class="col-6">
+        {{ form.min_value|as_crispy_field }}
+    </div>
+
+    <div class="col-6">
+        {{ form.max_value|as_crispy_field }}
+    </div>
+</div>
+<small class="text-center" style="color: grey;">Si no se ingresan estos datos, se calcularan automaticamente (recomendado) </small>
+
 
 {% else %}
 <div class="row">
     <div class="col-6">
         {{ form.test_type|as_crispy_field }}
+    </div>
+    <div class="col-6">
+        {{ form.probability|as_crispy_field }}
     </div>
 </div>
 {% endif %}

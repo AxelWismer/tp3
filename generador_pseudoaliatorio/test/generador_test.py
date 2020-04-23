@@ -1,6 +1,6 @@
 import unittest
-from generador import Generador
-import estadistica
+from generador_pseudoaliatorio.generador import Generador
+import generador_pseudoaliatorio.estadistica as estadistica
 
 class TestGenerador(unittest.TestCase):
     def test_truncate(self):

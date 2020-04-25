@@ -11,7 +11,7 @@ class GeneratorForm(forms.Form):
     g = forms.IntegerField(label='Coeficiente "g" que modifica a "m"', initial=1, min_value=1)
 
     METHOD_CHOICES = (('Mi', 'Congruencial Mixto'), ('Mu', 'Congruencial Multiplicativo'), ('Ge', 'Generador del Lenguaje'))
-    method = forms.ChoiceField(label='Metodo de calculo', choices=METHOD_CHOICES, initial=METHOD_CHOICES[0])
+    method = forms.ChoiceField(label='Metodo de calculo', choices=METHOD_CHOICES, initial=METHOD_CHOICES[2])
     decimals = forms.IntegerField(label='Cantidad de decimales', initial=4, min_value=0)
 
     def __init__(self, *args, **kwargs):
@@ -22,7 +22,7 @@ class GeneratorForm(forms.Form):
 
 class NumberTestForm(forms.Form):
     # Datos de la prueba
-    number_amount = forms.IntegerField(label='Cantidad de numeros', initial=100, min_value=2)
+    number_amount = forms.IntegerField(label='Cantidad de numeros', initial=10000, min_value=2)
     interval_amount = forms.IntegerField(label='Cantidad de intervalos', initial=10, min_value=1)
     TEST_TYPE_CHOICES = (('CHI', 'Chi Cuadrado'), ('KS', 'Kolmogorov-Smirnov'), ('AUTO', 'Automatico'))
     test_type = forms.ChoiceField(label="Tipo de prueba", choices=TEST_TYPE_CHOICES, initial=TEST_TYPE_CHOICES[2])
@@ -38,7 +38,7 @@ class UniformGeneratorForm(GeneratorForm, NumberTestForm):
 
 
 class ExponentialGeneratorForm(GeneratorForm, NumberTestForm):
-    lam = forms.FloatField(label='Lambda λ', min_value=0)
+    lam = forms.FloatField(label='Lambda λ', initial=1, min_value=0)
 
 
 class NormalGeneratorForm(GeneratorForm, NumberTestForm):
@@ -47,7 +47,7 @@ class NormalGeneratorForm(GeneratorForm, NumberTestForm):
 
 
 class PoissonGeneratorForm(GeneratorForm, NumberTestForm):
-    lam = forms.FloatField(label='Lambda λ', min_value=0)
+    lam = forms.FloatField(label='Lambda λ', initial=1, min_value=0)
     interval_amount = None
     min_value = None
     max_value = None

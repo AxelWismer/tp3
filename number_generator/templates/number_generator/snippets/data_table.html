@@ -1,21 +1,30 @@
 <!--Formulario del generador de numeros (base)-->
 <!--var: table -->
 <div class="text-center border border-dark rounded-lg p-2 m-2">
-    {% if table.metodo == 'KS' %}
-    <h3>Prueba de Kolmogorov-Smirnov</h3>
-    <hr>
-    <h5>max(| Po AC - Pe AC |): {{table.get_dif_prob_acu_max}}</h5>
-    <h5>Grados de libertad (v): {{table.v}}</h5>
 
-    {% else %}
-    <h3>Valores prueba de Ji-Cuadrada</h3>
+    {% if table.metodo == 'KS' %}
+    <h2>Prueba de Kolmogorov-Smirnov</h2>
     <hr>
     <h5>Grados de libertad (v): {{table.v}}</h5>
     <h5>Nivel de significancia ∝: {{table.nivel_de_significancia}}</h5>
-    <h5>Estadistico de prueba acumulado (c acumulado): {{table.get_c_acum}}</h5>
-    <h5>Valor critico: {{table.get_valor_critico}}</h5>
-    <h5>Conclusion: {{table.conclusion}}</h5>
+    <h5>Estadistico de prueba: {{table.get_dif_prob_acu_max}}</h5>
 
+    {% else %}
+    <h2>Valores prueba de Ji-Cuadrada</h2>
+    <hr>
+    <h5>Grados de libertad (v): {{table.v}}</h5>
+    <h5>Nivel de significancia ∝: {{table.nivel_de_significancia}}</h5>
+    <h5>Estadistico de prueba: {{table.get_c_acum}}</h5>
+
+    {% endif %}
+    <h5>Valor critico: {{table.get_valor_critico}}</h5>
+    <hr>
+    <hr>
+    <h3>Conclusion:</h3>
+    {% if table.hipotesis %}
+    <h4 class="text-success">{{table.conclusion_msg}}</h4>
+    {% else %}
+    <h4 class="text-danger">{{table.conclusion_msg}}</h4>
     {% endif %}
 
 </div>

@@ -3,7 +3,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import math
 from . import estadistica
-from scipy.stats import chi2
+from scipy.stats import chi2, ksone
 
 class Tabla():
     intervalos = []
@@ -65,7 +65,7 @@ class Tabla():
     # Devuelve el valor critico
     def valor_critico(self):
         if self.metodo == 'KS':
-            return -1
+            return ksone.ppf(1 - self.nivel_de_significancia / 2, self.v)
         else:
             return chi2.ppf(1 - self.nivel_de_significancia, self.v)
 
@@ -73,14 +73,18 @@ class Tabla():
         return estadistica.truncate(self.valor_critico(), self.decimals)
 
     # Devuelve el valor de la conclusion
-    def conclusion(self):
-        if self.metodo == 'KS':
-            return "incompleto"
+    def conclusion_msg(self):
+        if self.hipotesis():
+            return "No se puede recharzar la hipotesis nula"
         else:
-            if self.c_acum < self.valor_critico():
-                return "No se puede recharzar la hipotesis nula"
-            else:
-                return "Se rechaza la hipotesis nula"
+            return "Se rechaza la hipotesis nula"
+
+    def hipotesis(self):
+        if self.metodo == 'KS':
+            return self.dif_prob_acu_max < self.valor_critico()
+        else:
+            return self.c_acum < self.valor_critico()
+
     def get_c_acum(self):
         return estadistica.truncate(self.c_acum, self.decimals)
 
@@ -235,7 +239,7 @@ class Tabla():
             intervalos[i].prob_fe = intervalos[i].fe/len(self.datos)
             # Calculando la prob acumulada para cada intervalo
             prob_fo_acu += intervalos[i].prob_fo
-            intervalos[i].prob_fo_acu = prob_fo_acu 
+            intervalos[i].prob_fo_acu = prob_fo_acu
             # Lo mismo para la Fe
             prob_fe_acu += intervalos[i].prob_fe
             intervalos[i].prob_fe_acu = prob_fe_acu
